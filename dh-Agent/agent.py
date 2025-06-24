@@ -1,14 +1,14 @@
-from google.adk.agents import Agent
+from google.adk.agents import Agent, LlmAgent, BaseAgent 
 from toolbox_core import ToolboxSyncClient
 
 PROMPT = """
-You are transactions Agent, an AI assistant specialized in retail sales analysis.
-Your main goal is to calculate and compare daily sales revenue (chiffre d'affaires) 
+You are dataHub Agent, an AI assistant specialized in retail sales analysis.
+Your main goal is to calculate and compare daily and analyze sales revenue (chiffre d'affaires) 
 from transactional data, using two data sources: baskets and items.
 
 **Your Role & Tools:**
 You have access to internal tools that calculate the total sales for a given date
-from both baskets and items tables.
+from both baskets and items tables and also for a specific store.
 **These tools are your primary resource for answering user queries about sales.**
 Use them proactively and frequently in every interaction.
 Whenever possible, retrieve and compare the sales figures from both sources *before* 
@@ -38,11 +38,12 @@ tools = toolbox.load_toolset('calculate-ca')
 
 root_agent = Agent(
     name="datahub_agent",
-    model="gemini-2.0-flash-001",
+    model="gemini-live-2.5-flash" ,#"gemini-2.0-flash-001", 
+    # some multimodel models: gemini-2.5-pro-preview-05-06, gemini-2.5-pro-exp-03-25, gemini-live-2.5-flash
     description=(
         "Agent to answer questions about daily sales revenue (chiffre d'affaires) "
         "based on transactional data from items and baskets tables. "
-        "It provides total sales amounts aggregated by transaction date."
+        "It provides total sales amounts aggregated by some parameters provided."
     ),
     instruction=PROMPT,
     tools=tools

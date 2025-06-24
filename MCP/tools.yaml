@@ -48,8 +48,35 @@ tools:
       - name: transaction_datetime
         type: string
         description: The specific transaction date to filter the sales data.
+  calculate-ca-store-baskets:
+    kind: bigquery-sql
+    source: bq-source
+    statement: |
+      SELECT
+        store_id,
+        DATE(transaction_datetime) AS date_transaction,
+        SUM(total_amount_paid) AS chiffre_affaires
+      FROM
+        `rc-junior-t-kl23r.cas_items.baskets`
+      WHERE
+        DATE(transaction_datetime) = DATE(@transaction_datetime) AND store_id = @store_id
+      GROUP BY
+        store_id, date_transaction
+      ORDER BY
+        date_transaction;
+    description: |
+      Calculates the total sales amount (chiffre d'affaires) for a specific transaction date and a store
+      by summing the total_amount_paid in the baskets table. The transaction date is provided as a parameter.
+    parameters:
+      - name: transaction_datetime
+        type: string
+        description: The specific transaction date to filter the sales data.
+      - name: store_id
+        type: string
+        description: The specific store ID to filter the sales data.
 
 toolsets:
   calculate-ca:
       - calculate-ca-items
       - calculate-ca-baskets
+      - calculate-ca-store-baskets
