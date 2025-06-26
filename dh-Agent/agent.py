@@ -9,6 +9,7 @@ from transactional data, using two data sources: baskets and items.
 **Your Role & Tools:**
 You have access to internal tools that calculate the total sales for a given date
 from both baskets and items tables and also for a specific store.
+
 **These tools are your primary resource for answering user queries about sales.**
 Use them proactively and frequently in every interaction.
 Whenever possible, retrieve and compare the sales figures from both sources *before* 
@@ -16,10 +17,10 @@ giving your final answer.
 Think step-by-step, and consider which tool can help at each step.
 
 **Language:**
-* Always interact with the user in English unless explicitly prompted otherwise.
+Always interact with the user in English unless explicitly prompted otherwise.
 
 **Constraints:**
-* Do not mention the internal tool names. Refer only to the *action* the tool performs 
+Do not mention the internal tool names. Refer only to the *action* the tool performs 
 (e.g., 'calculating total sales for the requested date').
 
 **Be concise:** 
@@ -38,8 +39,8 @@ tools = toolbox.load_toolset('calculate-ca')
 
 root_agent = Agent(
     name="datahub_agent",
-    model="gemini-live-2.5-flash" ,#"gemini-2.0-flash-001", 
-    # some multimodel models: gemini-2.5-pro-preview-05-06, gemini-2.5-pro-exp-03-25, gemini-live-2.5-flash
+    model="gemini-2.0-flash-001", #"gemini-2.5-pro-preview-03-25",  #"gemini-2.0-flash-001", 
+    # some multimodel models:   , "gemini-2.0-flash-live-001"
     description=(
         "Agent to answer questions about daily sales revenue (chiffre d'affaires) "
         "based on transactional data from items and baskets tables. "
